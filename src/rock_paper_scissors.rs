@@ -1,19 +1,23 @@
 use std::str::FromStr;
+use aoc_2022::DailyProblem;
 
-fn main() {
-    println!("Day 2: Rock Paper Scissors");
-    println!("==========================");
-    let data = include_str!("data.txt");
+pub struct RockPaperScissors;
 
-    println!("Part 1: {}", sum_lines(data, score_round_part_1));
-    println!("Part 2: {}", sum_lines(data, score_round_part_2));
+impl DailyProblem for RockPaperScissors {
+    fn name(&self) -> &str { "Day 2: Rock Paper Scissors" }
+    fn index(&self) -> &str { "02" }
+    fn solutions(&self) -> (String, String) {
+	let data = include_str!("rock_paper_scissors/data.txt");
+	(sum_lines(data, score_round_part_1).to_string(), sum_lines(data, score_round_part_2).to_string())
+    }
+
 }
 
-fn sum_lines(input: &str, f: fn(&str) -> u32) -> u32 {
+pub fn sum_lines(input: &str, f: fn(&str) -> u32) -> u32 {
     input.lines().map(f).sum()
 }
 
-fn score_round_part_1(input: &str) -> u32 {
+pub fn score_round_part_1(input: &str) -> u32 {
     let mut signs = input.split(' ');
     let their_sign = Sign::from_str(signs.next().unwrap()).unwrap();
     let my_sign = Sign::from_str(signs.next().unwrap()).unwrap();
@@ -22,7 +26,7 @@ fn score_round_part_1(input: &str) -> u32 {
     my_sign.score() + result.score()
 }
 
-fn score_round_part_2(input: &str) -> u32 {
+pub fn score_round_part_2(input: &str) -> u32 {
     let mut signs = input.split(' ');
     let their_sign = Sign::from_str(signs.next().unwrap()).unwrap();
     let result = RoundResult::from_str(signs.next().unwrap()).unwrap();

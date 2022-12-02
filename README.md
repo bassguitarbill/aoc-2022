@@ -1,3 +1,3 @@
 # Advent of Code 2022
 ### How to Run
-To run the program for day `<01>`, use `cargo run --bin <01>`
+To run the program for all days, use `cargo run`
