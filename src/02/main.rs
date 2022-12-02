@@ -31,6 +31,7 @@ fn score_round_part_2(input: &str) -> u32 {
     my_sign.score() + result.score()
 }
 
+#[derive(PartialEq)]
 enum Sign {
     Rock,
     Paper,
@@ -46,24 +47,26 @@ impl Sign {
 	}
     }
 
-    fn result(&self, other: Self) -> RoundResult {
+    fn beats(&self) -> Sign {
 	match self {
-	    Sign::Rock => match other {
-		Sign::Rock => RoundResult::Tie,
-		Sign::Paper => RoundResult::Loss,
-		Sign::Scissors => RoundResult::Victory,
-	    },
-	    Sign::Paper => match other {
-		Sign::Rock => RoundResult::Victory,
-		Sign::Paper => RoundResult::Tie,
-		Sign::Scissors => RoundResult::Loss,
-	    },
-	    Sign::Scissors => match other {
-		Sign::Rock => RoundResult::Loss,
-		Sign::Paper => RoundResult::Victory,
-		Sign::Scissors => RoundResult::Tie,
-	    },
+	    Sign::Rock => Sign::Scissors,
+	    Sign::Paper => Sign::Rock,
+	    Sign::Scissors => Sign::Paper,
 	}
+    }
+
+    fn is_beaten_by(&self) -> Sign {
+	match self {
+	    Sign::Rock => Sign::Paper,
+	    Sign::Paper => Sign::Scissors,
+	    Sign::Scissors => Sign::Rock,
+	}
+    }
+
+    fn result(&self, other: Self) -> RoundResult {
+	if self.beats() == other { RoundResult::Victory }
+	else if self.is_beaten_by() == other { RoundResult::Loss }
+	else { RoundResult::Tie }
     }
 }
 
@@ -84,17 +87,9 @@ impl RoundResult {
 
     fn sign_to_throw(&self, opponent_sign: Sign) -> Sign {
 	match self {
-	    RoundResult::Victory => match opponent_sign {
-		Sign::Rock => Sign::Paper,
-		Sign::Paper => Sign::Scissors,
-		Sign::Scissors => Sign::Rock,
-	    },
+	    RoundResult::Victory => opponent_sign.is_beaten_by(),
 	    RoundResult::Tie => opponent_sign,
-	    RoundResult::Loss => match opponent_sign {
-		Sign::Rock => Sign::Scissors,
-		Sign::Paper => Sign::Rock,
-		Sign::Scissors => Sign::Paper,
-	    },
+	    RoundResult::Loss => opponent_sign.beats(),
 	}
     }
 }
