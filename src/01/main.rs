@@ -6,7 +6,7 @@ fn main() {
     let max_calories = calories.last();
     println!("Part 1: {}", max_calories.unwrap());
     let top_three = &calories[calories.len() - 3..calories.len()];
-    println!("Part 2: {}", top_three.iter().fold(0, |acc, x| acc + x));
+    println!("Part 2: {}", top_three.iter().sum::<u32>());
 }
 
 fn group_by_elf(input: &str) -> Vec<u32> {
