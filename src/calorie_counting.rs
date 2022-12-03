@@ -15,7 +15,7 @@ impl DailyProblem for CalorieCounting {
 }
 
 pub fn group_by_elf(input: &str) -> Vec<u32> {
-    input.split("\n\n").map(|elf| elf.lines().fold(0, |calories, snack| calories + snack.parse::<u32>().unwrap())).collect()
+    input.split("\n\n").map(|elf| elf.lines().map(|l| l.parse::<u32>().unwrap()).sum()).collect()
 }
 
 
