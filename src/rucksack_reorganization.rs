@@ -1,4 +1,5 @@
-use std::str::FromStr;
+use std::str::{FromStr, Lines};
+use std::iter::Iterator;
 use aoc_2022::{DailyProblem, sum_lines};
 
 pub struct RucksackReorganization;
@@ -10,7 +11,8 @@ impl DailyProblem for RucksackReorganization {
 	let data = include_str!("rucksack_reorganization/data.txt");
 	(
 	    sum_lines(data, calculate_priority).to_string(),
-	    gather_elf_groups(data).iter().map(|eg| eg.priority().unwrap()).sum::<u32>().to_string()
+	    ElfGroupIter(data.lines()).map(|eg| eg.priority().unwrap()).sum::<u32>().to_string()
+
 	)
     }
 }
@@ -19,13 +21,23 @@ fn calculate_priority(line: &str) -> u32 {
     Rucksack::from_str(line).unwrap().priority().unwrap()
 }
 
-fn gather_elf_groups(input: &str) -> Vec<ElfGroup> {
-    let mut elf_groups = vec![];
-    let mut lines = input.lines();
-    while let Some(elf) = lines.next() {
-	elf_groups.push(ElfGroup(elf.to_string(), lines.next().unwrap().to_string(), lines.next().unwrap().to_string()));
+struct ElfGroupIter<'a>(Lines<'a>);
+
+impl Iterator for ElfGroupIter<'_> {
+    type Item = ElfGroup;
+
+    fn next(&mut self) -> Option<ElfGroup> {
+	match self.0.next() {
+	    Some(a) => match self.0.next() {
+		Some(b) => match self.0.next() {
+		    Some(c) => Some(ElfGroup(a.to_string(), b.to_string(), c.to_string())),
+		    None => None,
+		},
+		None => None,
+	    },
+	    None => None,
+	}
     }
-    elf_groups
 }
 
 fn common_chars(s1: &str, s2: &str) -> String {
