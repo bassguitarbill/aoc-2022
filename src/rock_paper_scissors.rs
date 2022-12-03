@@ -1,5 +1,5 @@
 use std::str::FromStr;
-use aoc_2022::DailyProblem;
+use aoc_2022::{DailyProblem, sum_lines};
 
 pub struct RockPaperScissors;
 
@@ -11,10 +11,6 @@ impl DailyProblem for RockPaperScissors {
 	(sum_lines(data, score_round_part_1).to_string(), sum_lines(data, score_round_part_2).to_string())
     }
 
-}
-
-pub fn sum_lines(input: &str, f: fn(&str) -> u32) -> u32 {
-    input.lines().map(f).sum()
 }
 
 pub fn score_round_part_1(input: &str) -> u32 {

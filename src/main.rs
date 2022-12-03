@@ -1,15 +1,18 @@
 mod calorie_counting;
 mod rock_paper_scissors;
+mod rucksack_reorganization;
 
 use std::env;
 use aoc_2022::DailyProblem;
 use crate::calorie_counting::CalorieCounting;
 use crate::rock_paper_scissors::RockPaperScissors;
+use crate::rucksack_reorganization::RucksackReorganization;
 
 fn main() {
     let problems: Vec<Box<dyn DailyProblem>> = vec![
 	Box::new(CalorieCounting{}),
 	Box::new(RockPaperScissors{}),
+	Box::new(RucksackReorganization{}),
 	];
 
     let args: Vec<String> = env::args().collect();
@@ -18,7 +21,7 @@ fn main() {
     if args.is_empty() {
 	for p in problems.iter() {
 	    p.print_solutions();
-	    println!("");
+	    println!();
 	}
     } else {
 	let arg = args.first().unwrap().parse::<usize>();

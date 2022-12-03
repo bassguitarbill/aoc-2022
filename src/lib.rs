@@ -13,3 +13,7 @@ impl dyn DailyProblem {
 	println!("Part 2: {}", second_solution);
     }
 }
+
+pub fn sum_lines(input: &str, f: fn(&str) -> u32) -> u32 {
+    input.lines().map(f).sum()
+}
