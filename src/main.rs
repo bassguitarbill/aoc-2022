@@ -2,6 +2,7 @@ mod calorie_counting;
 mod rock_paper_scissors;
 mod rucksack_reorganization;
 mod camp_cleanup;
+mod supply_stacks;
 
 use std::env;
 use aoc_2022::DailyProblem;
@@ -9,6 +10,7 @@ use crate::calorie_counting::CalorieCounting;
 use crate::rock_paper_scissors::RockPaperScissors;
 use crate::rucksack_reorganization::RucksackReorganization;
 use crate::camp_cleanup::CampCleanup;
+use crate::supply_stacks::SupplyStacks;
 
 fn main() {
     let problems: Vec<Box<dyn DailyProblem>> = vec![
@@ -16,6 +18,7 @@ fn main() {
 	Box::new(RockPaperScissors{}),
 	Box::new(RucksackReorganization{}),
 	Box::new(CampCleanup{}),
+	Box::new(SupplyStacks{}),
 	];
 
     let args: Vec<String> = env::args().collect();
