@@ -9,13 +9,11 @@ impl DailyProblem for SupplyStacks {
     fn index(&self) -> &str { "05" }
     fn solutions(&self) -> (String, String) {
 	let data = include_str!("supply_stacks/data.txt");
-	let mut puzzle = parse_input(data);
-	//println!("{:?}", puzzle.crates);
-	while !puzzle.step() {
-	    //println!("{:?}", puzzle.crates);
-	}
-	println!("Crates on top: {}", puzzle.crates_on_top());
-	("-1".to_string(), "-1".to_string())
+	let mut part_1 = parse_input(data, false);
+	while !part_1.step() {}
+	let mut part_2 = parse_input(data, true);
+	while !part_2.step() {}
+	(part_1.crates_on_top(), part_2.crates_on_top())
     }
 }
 
@@ -23,6 +21,7 @@ impl DailyProblem for SupplyStacks {
 struct PuzzleState<'a> {
     crates: Vec<VecDeque<char>>,
     instructions: InstructionIter<'a>,
+    can_move_multiple_crates: bool,
 }
 
 impl PuzzleState<'_> {
@@ -34,11 +33,26 @@ impl PuzzleState<'_> {
     }
 
     fn apply_instruction(&mut self, instruction: Instruction) {
-	// println!("Current instruction: {:?}", instruction);
-	for _ in 0..instruction.to_move {
-	    let crates = &mut self.crates;
-	    let c = crates.get_mut(instruction.from - 1).unwrap().pop_front().unwrap();
-	    crates.get_mut(instruction.to - 1).unwrap().push_front(c);
+	match self.can_move_multiple_crates {
+	    false => {
+		for _ in 0..instruction.to_move {
+		    let crates = &mut self.crates;
+		    let c = crates.get_mut(instruction.from - 1).unwrap().pop_front().unwrap();
+		    crates.get_mut(instruction.to - 1).unwrap().push_front(c);
+		}
+	    },
+	    true => {
+		let mut crates_in_crane = vec![];
+		for _ in 0..instruction.to_move {
+		    let c = self.crates.get_mut(instruction.from - 1).unwrap().pop_front().unwrap();
+		    crates_in_crane.push(c);
+		}
+
+		for _ in 0..instruction.to_move {
+		    let c = crates_in_crane.pop().unwrap();
+		    self.crates.get_mut(instruction.to - 1).unwrap().push_front(c);
+		}
+	    }
 	}
     }
 
@@ -58,16 +72,20 @@ struct Instruction {
     to: usize,
 }
 
-fn parse_input(input: &str) -> PuzzleState {
+fn parse_input(input: &str, can_move_multiple_crates: bool) -> PuzzleState {
     let mut chunks = input.split("\n\n");
-    PuzzleState{ crates: parse_crates(chunks.next().unwrap()), instructions: InstructionIter{ lines: chunks.next().unwrap().lines() } }
+    PuzzleState{
+	crates: parse_crates(chunks.next().unwrap()),
+	instructions: InstructionIter{ lines: chunks.next().unwrap().lines() },
+	can_move_multiple_crates,
+    }
 }
 
 fn parse_crates(input: &str) -> Vec<VecDeque<char>> {
-    let num_stacks = input.lines().last().unwrap().replace(" ", "").len();
+    let num_stacks = input.lines().last().unwrap().replace(' ', "").len();
     let mut stacks = vec![VecDeque::new() ; num_stacks];
     for slice in input.lines() {
-	if !slice.trim().starts_with("[") { break }
+	if !slice.trim().starts_with('[') { break }
 
 	for stack_index in 0..num_stacks {
 	    let mut potential_crate = slice[stack_index*4..stack_index*4+3].chars();
@@ -76,7 +94,6 @@ fn parse_crates(input: &str) -> Vec<VecDeque<char>> {
 	    }
 	}
     }
-    // println!("stacks: {:?}", stacks);
     stacks
 }
 
