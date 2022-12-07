@@ -27,9 +27,14 @@ impl dyn DailyProblem {
 
     fn download_and_return_input(&self) -> Result<String, ()> {
 	println!("Downloading file for problem {}", self.index());
-	let cookie_string = match fs::read_to_string("data/cookie") {
+
+	let mut cookie_file_path = project_root::get_project_root().unwrap();
+	cookie_file_path.push("src");
+	cookie_file_path.push("data");
+	cookie_file_path.push("cookie");
+	let cookie_string = match fs::read_to_string(cookie_file_path.to_str().unwrap()) {
 	    Ok(cs) => cs,
-	    Err(e) => panic!("Set your cookie file at \"data/cookie\": {}", e)
+	    Err(e) => panic!("Set your cookie file at \"src/data/cookie\": {}", e)
 	};
 
 	let mut handle = Easy::new();
