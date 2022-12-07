@@ -7,7 +7,7 @@ impl DailyProblem for RockPaperScissors {
     fn name(&self) -> &str { "Day 2: Rock Paper Scissors" }
     fn index(&self) -> &str { "02" }
     fn solutions(&self) -> (String, String) {
-	let data = include_str!("rock_paper_scissors/data.txt");
+	let data = include_str!("data/rock_paper_scissors.txt");
 	(sum_lines(data, score_round_part_1).to_string(), sum_lines(data, score_round_part_2).to_string())
     }
 

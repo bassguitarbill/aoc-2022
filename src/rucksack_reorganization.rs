@@ -8,7 +8,7 @@ impl DailyProblem for RucksackReorganization {
     fn name(&self) -> &str { "Day 3: Rucksack Reorganization" }
     fn index(&self) -> &str { "03" }
     fn solutions(&self) -> (String, String) {
-	let data = include_str!("rucksack_reorganization/data.txt");
+	let data = include_str!("data/rucksack_reorganization.txt");
 	(
 	    sum_lines(data, calculate_priority).to_string(),
 	    ElfGroupIter(data.lines()).map(|eg| eg.priority().unwrap()).sum::<u32>().to_string()

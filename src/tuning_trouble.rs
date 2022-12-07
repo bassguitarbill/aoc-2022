@@ -8,7 +8,7 @@ impl DailyProblem for TuningTrouble {
     fn name(&self) -> &str { "Day 6: Tuning Trouble" }
     fn index(&self) -> &str { "06" }
     fn solutions(&self) -> (String, String) {
-	let data = include_str!("tuning_trouble/data.txt");
+	let data = include_str!("data/tuning_trouble.txt");
 	(
 	    find_start_of_packet_index(data, 4).unwrap().to_string(),
 	    find_start_of_packet_index(data, 14).unwrap().to_string()

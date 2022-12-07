@@ -8,7 +8,7 @@ impl DailyProblem for SupplyStacks {
     fn name(&self) -> &str { "Day 5: Supply Stacks" }
     fn index(&self) -> &str { "05" }
     fn solutions(&self) -> (String, String) {
-	let data = include_str!("supply_stacks/data.txt");
+	let data = include_str!("data/supply_stacks.txt");
 	let mut part_1 = parse_input(data, false);
 	while !part_1.step() {}
 	let mut part_2 = parse_input(data, true);
