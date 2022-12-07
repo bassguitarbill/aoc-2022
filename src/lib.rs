@@ -46,6 +46,7 @@ impl dyn DailyProblem {
 
 	let mut handle = Easy::new();
 	handle.cookie(&cookie_string).unwrap();
+	handle.useragent("github.com/bassguitarbill/aoc-2022 by bassguitarbill@gmail.com").unwrap();
 	handle.url(&format!("https://adventofcode.com/2022/day/{}/input", self.index())).unwrap();
 
 	let mut input: String = String::new();
