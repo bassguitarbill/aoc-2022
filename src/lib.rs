@@ -19,19 +19,26 @@ impl dyn DailyProblem {
     }
 
     fn get_input(&self) -> String {
-	match fs::read_to_string(format!("data/{}", self.index())) {
+	let mut input_file_path = project_root::get_project_root().unwrap();
+	input_file_path.push("src");
+	input_file_path.push("data");
+	input_file_path.push(self.index().to_string());
+	let input_file_path = input_file_path.to_str().unwrap();
+
+	match fs::read_to_string(input_file_path) {
 	    Ok(s) => s,
-	    Err(_) => self.download_and_return_input().unwrap(),
+	    Err(_) => self.download_and_return_input(input_file_path).unwrap(),
 	}
     }
 
-    fn download_and_return_input(&self) -> Result<String, ()> {
+    fn download_and_return_input(&self, download_path: &str) -> Result<String, ()> {
 	println!("Downloading file for problem {}", self.index());
 
 	let mut cookie_file_path = project_root::get_project_root().unwrap();
 	cookie_file_path.push("src");
 	cookie_file_path.push("data");
 	cookie_file_path.push("cookie");
+
 	let cookie_string = match fs::read_to_string(cookie_file_path.to_str().unwrap()) {
 	    Ok(cs) => cs,
 	    Err(e) => panic!("Set your cookie file at \"src/data/cookie\": {}", e)
@@ -51,7 +58,7 @@ impl dyn DailyProblem {
 
 	    transfer.perform().unwrap();
 	}
-	fs::write(format!("data/{}", self.index()), &input).unwrap();
+	fs::write(download_path, &input).unwrap();
 	Ok(input)
     }
 }
