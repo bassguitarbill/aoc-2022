@@ -6,12 +6,11 @@ pub struct TuningTrouble;
 
 impl DailyProblem for TuningTrouble {
     fn name(&self) -> &str { "Day 6: Tuning Trouble" }
-    fn index(&self) -> &str { "06" }
-    fn solutions(&self) -> (String, String) {
-	let data = include_str!("data/tuning_trouble.txt");
+    fn index(&self) -> u8 { 6 }
+    fn solutions(&self, input: &str) -> (String, String) {
 	(
-	    find_start_of_packet_index(data, 4).unwrap().to_string(),
-	    find_start_of_packet_index(data, 14).unwrap().to_string()
+	    find_start_of_packet_index(input, 4).unwrap().to_string(),
+	    find_start_of_packet_index(input, 14).unwrap().to_string()
 	)
     }
 }

@@ -8,12 +8,11 @@ pub struct CampCleanup;
 
 impl DailyProblem for CampCleanup {
     fn name(&self) -> &str { "Day 4: Camp Cleanup" }
-    fn index(&self) -> &str { "04" }
-    fn solutions(&self) -> (String, String) {
-	let data = include_str!("data/camp_cleanup.txt");
+    fn index(&self) -> u8 { 4 }
+    fn solutions(&self, input: &str) -> (String, String) {
 	(
-	    sum_lines(data, count_full_overlaps).to_string(),
-	    sum_lines(data, count_partial_overlaps).to_string(),
+	    sum_lines(input, count_full_overlaps).to_string(),
+	    sum_lines(input, count_partial_overlaps).to_string(),
 	)
     }
 }

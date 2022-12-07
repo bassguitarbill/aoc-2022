@@ -6,12 +6,11 @@ pub struct RucksackReorganization;
 
 impl DailyProblem for RucksackReorganization {
     fn name(&self) -> &str { "Day 3: Rucksack Reorganization" }
-    fn index(&self) -> &str { "03" }
-    fn solutions(&self) -> (String, String) {
-	let data = include_str!("data/rucksack_reorganization.txt");
+    fn index(&self) -> u8 { 3 }
+    fn solutions(&self, input: &str) -> (String, String) {
 	(
-	    sum_lines(data, calculate_priority).to_string(),
-	    ElfGroupIter(data.lines()).map(|eg| eg.priority().unwrap()).sum::<u32>().to_string()
+	    sum_lines(input, calculate_priority).to_string(),
+	    ElfGroupIter(input.lines()).map(|eg| eg.priority().unwrap()).sum::<u32>().to_string()
 
 	)
     }

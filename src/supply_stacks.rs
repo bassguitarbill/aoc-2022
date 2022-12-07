@@ -6,12 +6,11 @@ use std::{str::Lines, collections::VecDeque};
 pub struct SupplyStacks;
 impl DailyProblem for SupplyStacks {
     fn name(&self) -> &str { "Day 5: Supply Stacks" }
-    fn index(&self) -> &str { "05" }
-    fn solutions(&self) -> (String, String) {
-	let data = include_str!("data/supply_stacks.txt");
-	let mut part_1 = parse_input(data, false);
+    fn index(&self) -> u8 { 5 }
+    fn solutions(&self, input: &str) -> (String, String) {
+	let mut part_1 = parse_input(input, false);
 	while !part_1.step() {}
-	let mut part_2 = parse_input(data, true);
+	let mut part_2 = parse_input(input, true);
 	while !part_2.step() {}
 	(part_1.crates_on_top(), part_2.crates_on_top())
     }

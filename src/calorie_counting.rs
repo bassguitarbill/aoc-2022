@@ -4,9 +4,9 @@ pub struct CalorieCounting;
 
 impl DailyProblem for CalorieCounting {
     fn name(&self) -> &str { "Day 1: Calorie Counting" }
-    fn index(&self) -> &str { "01" }
-    fn solutions(&self) -> (String, String) {
-	let mut calories = group_by_elf(include_str!("data/calorie_counting.txt"));
+    fn index(&self) -> u8 { 1 }
+    fn solutions(&self, input: &str) -> (String, String) {
+	let mut calories = group_by_elf(input);
 	calories.sort();
 	let max_calories = calories.last();
 	let top_three = &calories[calories.len() - 3..calories.len()];
