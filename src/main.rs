@@ -4,6 +4,8 @@ mod rucksack_reorganization;
 mod camp_cleanup;
 mod supply_stacks;
 mod tuning_trouble;
+mod no_space_left_on_device;
+mod treetop_tree_house;
 
 use std::env;
 use aoc_2022::DailyProblem;
@@ -13,6 +15,8 @@ use crate::rucksack_reorganization::RucksackReorganization;
 use crate::camp_cleanup::CampCleanup;
 use crate::supply_stacks::SupplyStacks;
 use crate::tuning_trouble::TuningTrouble;
+use crate::no_space_left_on_device::NoSpaceLeftOnDevice;
+use crate::treetop_tree_house::TreetopTreeHouse;
 
 fn main() {
     let problems: Vec<Box<dyn DailyProblem>> = vec![
@@ -22,6 +26,8 @@ fn main() {
 	Box::new(CampCleanup{}),
 	Box::new(SupplyStacks{}),
 	Box::new(TuningTrouble{}),
+	Box::new(NoSpaceLeftOnDevice{}),
+	Box::new(TreetopTreeHouse{}),
 	];
 
     let args: Vec<String> = env::args().collect();
