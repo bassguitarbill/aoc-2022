@@ -212,6 +212,5 @@ mod tests {
 	assert_eq!(trees.tree_at(3, 0).height, 7);
 	assert_eq!(trees.tree_at(2, 1).scenic_score, 4);
 	assert_eq!(trees.tree_at(2, 3).scenic_score, 8);
-	assert_eq!(2, 1);
     }
 }
