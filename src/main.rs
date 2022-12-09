@@ -6,6 +6,7 @@ mod supply_stacks;
 mod tuning_trouble;
 mod no_space_left_on_device;
 mod treetop_tree_house;
+mod rope_bridge;
 
 use std::env;
 use aoc_2022::DailyProblem;
@@ -17,6 +18,7 @@ use crate::supply_stacks::SupplyStacks;
 use crate::tuning_trouble::TuningTrouble;
 use crate::no_space_left_on_device::NoSpaceLeftOnDevice;
 use crate::treetop_tree_house::TreetopTreeHouse;
+use crate::rope_bridge::RopeBridge;
 
 fn main() {
     let problems: Vec<Box<dyn DailyProblem>> = vec![
@@ -28,6 +30,7 @@ fn main() {
 	Box::new(TuningTrouble{}),
 	Box::new(NoSpaceLeftOnDevice{}),
 	Box::new(TreetopTreeHouse{}),
+	Box::new(RopeBridge{}),
 	];
 
     let args: Vec<String> = env::args().collect();
