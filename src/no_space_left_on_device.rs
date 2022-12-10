@@ -1,4 +1,5 @@
-// use std::collections::HashMap;
+
+use std::collections::HashMap;
 
 use aoc_2022::DailyProblem;
 
@@ -7,95 +8,54 @@ pub struct NoSpaceLeftOnDevice;
 impl DailyProblem for NoSpaceLeftOnDevice {
     fn name(&self) -> &str { "Day 7: No Space Left On Device" }
     fn index(&self) -> u8 { 7 }
-    fn solutions(&self, _input: &str) -> (String, String) {
-	// println!("{:?}", Directory::new(input).unwrap());
-	((-1).to_string(), (-1).to_string())
+    fn solutions(&self, input: &str) -> (String, String) {
+	let dirs = &parse_tree(input);
+	(
+	    directories_under(dirs, 100000).to_string(),
+	    directory_to_delete(dirs, 70000000, 30000000).to_string(),
+	)
     }
 }
 
-/* #[derive(Debug)]
-struct Directory <'a> {
-    parent: Option<&'a Directory<'a>>,
-    contents: HashMap<&'a str, DirectoryListing<'a>>,
-}
-
-impl <'a> Directory<'a> {
-    fn new(input: &'a str) -> Result<Self, String> {
-	let mut root_directory = Self{ parent: None, contents: HashMap::new() };
-	let mut current_directory = &mut root_directory;
-	for line in input.lines() {
-	    match InputLine::new(line).unwrap() {
-		InputLine::CdRoot => { current_directory = &mut root_directory }
-		InputLine::CdDir(name) => {
-		    current_directory = match current_directory.contents.get_mut(name).unwrap() {
-			DirectoryListing::File(_) => panic!(),
-			DirectoryListing::Directory(d) => d,
-		    };
+fn parse_tree<'a>(input: &'a str) -> HashMap<String, u32> {
+    let mut directories: HashMap<String, u32> = HashMap::new();
+    directories.insert("".to_string(), 0);
+    let mut context = vec![""];
+    for line in input.lines() {
+	match InputLine::new(line).unwrap() {
+	    InputLine::CdRoot => { context.clear(); context.push(""); }
+	    InputLine::CdDir(name) => { context.push(name); },
+	    InputLine::CdUp => { context.pop(); },
+	    InputLine::Ls => { },
+	    InputLine::File(size, _) => {
+		let dir = directories.get_mut(&context.join("/")).unwrap();
+		*dir += size;
+		for index in 0..context.len()-1 {
+		    let dir = directories.get_mut(&context[0..=index].join("/")).unwrap();
+		    *dir += size;
 		}
-		InputLine::Ls => { },
-		InputLine::File(size, name) => {
-		    let cd = current_directory;
-		    current_directory.contents.insert(name, DirectoryListing::File(File{ parent: cd, size }));
-		},
-		InputLine::Dir(name) => {
-		    let cd = &mut (*current_directory).contents;
-		    cd.insert(name, DirectoryListing::Directory(Directory{ parent: Some(current_directory), contents: HashMap::new() }));
-		},
-		e => todo!("{:?}",e)
-	    }
+	    },
+	    InputLine::Dir(name) => {
+		let mut path = context.join("/");
+		path.push_str("/");
+		path.push_str(name);
+		directories.insert(path, 0);
+	    },
 	}
-	Ok(root_directory)
     }
+    directories
 }
 
-#[derive(Debug)]
-struct File <'a> {
-    parent: &'a Directory<'a>,
-    size: u32,
+fn directories_under(dirs: &HashMap<String, u32>, size_limit: u32) -> u32 {
+    dirs.iter().filter(|d| *d.1 <= size_limit).map(|d| d.1).sum()
 }
 
-#[derive(Debug)]
-enum DirectoryListing<'a> {
-    File(File<'a>),
-    Directory(Directory<'a>),
-}*/
-/*
-impl FromStr for DirectoryListing {
-    type Err = ();
+fn directory_to_delete(dirs: &HashMap<String, u32>, total_size: u32, target_size: u32) -> u32 {
+    let free_space = total_size - dirs.get("").unwrap();
+    let space_to_delete = target_size - free_space;
+    *dirs.iter().filter(|d| d.1.to_owned() >= space_to_delete).map(|d| d.1).min().unwrap()
+}
 
-    fn from_str(input: &str) -> Result<Self, ()> {
-	let root_directory = DirectoryListing::Directory(HashMap::new(), None);
-	let mut current_directory = &root_directory;
-	for line in input.lines() {
-	    match InputLine::from_str(line).unwrap() {
-		InputLine::CdRoot => { current_directory = &root_directory; }
-		InputLine::CdDir(dir_name) => {
-		    match current_directory {
-			DirectoryListing::File(_, _) => panic!("Can't cd into a file"),
-			DirectoryListing::Directory(map, _) => { current_directory = map.get(&dir_name).expect(&format!("No directory named {}", dir_name)); },
-		    }
-		},
-		InputLine::CdUp => {
-		    match current_directory {
-			DirectoryListing::File(_, parent) => { current_directory = &parent.as_ref().unwrap() },
-			DirectoryListing::Directory(_, parent) => { current_directory = &parent.as_ref().unwrap() },
-		    }
-		},
-		InputLine::Ls => { },
-		InputLine::File(size, name) => {
-		    match current_directory {
-			DirectoryListing::File(_, _) => panic!("Can't list a file in a file"),
-			DirectoryListing::Directory(map, _) => { map.insert(name, DirectoryListing::File(size, Some(Box::new(current_directory)))); },
-		    }
-		},
-		InputLine::Dir(name) => { },
-	    }
-	}
-	Ok(root_directory)
-    }
-}*/
-
-/*
 #[derive(Debug)]
 enum InputLine<'a> {
     CdRoot,
@@ -124,4 +84,3 @@ impl <'a> InputLine<'a> {
 	}
     }
 }
-*/
