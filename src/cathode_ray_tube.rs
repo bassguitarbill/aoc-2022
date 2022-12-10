@@ -42,7 +42,7 @@ impl <'a> CRT<'a> {
     }
 
     fn should_draw_pixel(&self) -> bool {
-	self.current_column().abs_diff(self.cpu.x as usize) < 2
+	(self.current_column() as i32).abs_diff(self.cpu.x as i32) < 2
     }
 
     fn current_column(&self) -> usize {
