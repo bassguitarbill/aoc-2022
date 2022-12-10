@@ -7,6 +7,7 @@ mod tuning_trouble;
 mod no_space_left_on_device;
 mod treetop_tree_house;
 mod rope_bridge;
+mod cathode_ray_tube;
 
 use std::env;
 use aoc_2022::DailyProblem;
@@ -19,6 +20,7 @@ use crate::tuning_trouble::TuningTrouble;
 use crate::no_space_left_on_device::NoSpaceLeftOnDevice;
 use crate::treetop_tree_house::TreetopTreeHouse;
 use crate::rope_bridge::RopeBridge;
+use crate::cathode_ray_tube::CathodeRayTube;
 
 fn main() {
     let problems: Vec<Box<dyn DailyProblem>> = vec![
@@ -31,6 +33,7 @@ fn main() {
 	Box::new(NoSpaceLeftOnDevice{}),
 	Box::new(TreetopTreeHouse{}),
 	Box::new(RopeBridge{}),
+	Box::new(CathodeRayTube{}),
 	];
 
     let args: Vec<String> = env::args().collect();
