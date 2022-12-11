@@ -8,6 +8,7 @@ mod no_space_left_on_device;
 mod treetop_tree_house;
 mod rope_bridge;
 mod cathode_ray_tube;
+mod monkey_in_the_middle;
 
 use std::env;
 use aoc_2022::DailyProblem;
@@ -21,6 +22,7 @@ use crate::no_space_left_on_device::NoSpaceLeftOnDevice;
 use crate::treetop_tree_house::TreetopTreeHouse;
 use crate::rope_bridge::RopeBridge;
 use crate::cathode_ray_tube::CathodeRayTube;
+use crate::monkey_in_the_middle::MonkeyInTheMiddle;
 
 fn main() {
     let problems: Vec<Box<dyn DailyProblem>> = vec![
@@ -34,6 +36,7 @@ fn main() {
 	Box::new(TreetopTreeHouse{}),
 	Box::new(RopeBridge{}),
 	Box::new(CathodeRayTube{}),
+	Box::new(MonkeyInTheMiddle{}),
 	];
 
     let args: Vec<String> = env::args().collect();
