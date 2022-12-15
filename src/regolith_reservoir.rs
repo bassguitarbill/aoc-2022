@@ -1,3 +1,5 @@
+use std::cmp::Ordering;
+
 use crate::DailyProblem;
 
 pub struct RegolithReservoir;
@@ -41,16 +43,20 @@ impl Path {
         all_positions.push(position.clone());
         for next_position in positions {
             while position != next_position {
-                if position.1 == next_position.1 {
-                    if position.0 > next_position.0 {
-                        position.0 -= 1;
-                    } else {
-                        position.0 += 1;
+                match position.1.cmp(&next_position.1) {
+                    Ordering::Equal => {
+                        if position.0 > next_position.0 {
+                            position.0 -= 1;
+                        } else {
+                            position.0 += 1;
+                        }
                     }
-                } else if position.1 > next_position.1 {
-                    position.1 -= 1;
-                } else {
-                    position.1 += 1;
+                    Ordering::Greater => {
+                        position.1 -= 1;
+                    }
+                    Ordering::Less => {
+                        position.1 += 1;
+                    }
                 }
                 all_positions.push(position.clone());
             }
@@ -141,7 +147,7 @@ impl GameState {
 }
 
 impl GameState {
-    fn print(&self) {
+    fn _print(&self) {
         for row in &self.cells {
             for cell in &row[450..550] {
                 match cell {
