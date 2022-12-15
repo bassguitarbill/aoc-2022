@@ -1,63 +1,70 @@
 mod calorie_counting;
-mod rock_paper_scissors;
-mod rucksack_reorganization;
 mod camp_cleanup;
-mod supply_stacks;
-mod tuning_trouble;
-mod no_space_left_on_device;
-mod treetop_tree_house;
-mod rope_bridge;
 mod cathode_ray_tube;
+mod distress_signal;
+mod hill_climbing_algorithm;
 mod monkey_in_the_middle;
+mod no_space_left_on_device;
+mod regolith_reservoir;
+mod rock_paper_scissors;
+mod rope_bridge;
+mod rucksack_reorganization;
+mod supply_stacks;
+mod treetop_tree_house;
+mod tuning_trouble;
 
-use std::env;
-use aoc_2022::DailyProblem;
 use crate::calorie_counting::CalorieCounting;
-use crate::rock_paper_scissors::RockPaperScissors;
-use crate::rucksack_reorganization::RucksackReorganization;
 use crate::camp_cleanup::CampCleanup;
-use crate::supply_stacks::SupplyStacks;
-use crate::tuning_trouble::TuningTrouble;
-use crate::no_space_left_on_device::NoSpaceLeftOnDevice;
-use crate::treetop_tree_house::TreetopTreeHouse;
-use crate::rope_bridge::RopeBridge;
 use crate::cathode_ray_tube::CathodeRayTube;
+use crate::distress_signal::DistressSignal;
+use crate::hill_climbing_algorithm::HillClimbingAlgorithm;
 use crate::monkey_in_the_middle::MonkeyInTheMiddle;
+use crate::no_space_left_on_device::NoSpaceLeftOnDevice;
+use crate::regolith_reservoir::RegolithReservoir;
+use crate::rock_paper_scissors::RockPaperScissors;
+use crate::rope_bridge::RopeBridge;
+use crate::rucksack_reorganization::RucksackReorganization;
+use crate::supply_stacks::SupplyStacks;
+use crate::treetop_tree_house::TreetopTreeHouse;
+use crate::tuning_trouble::TuningTrouble;
+use aoc_2022::DailyProblem;
+use std::env;
 
 fn main() {
     let problems: Vec<Box<dyn DailyProblem>> = vec![
-	Box::new(CalorieCounting{}),
-	Box::new(RockPaperScissors{}),
-	Box::new(RucksackReorganization{}),
-	Box::new(CampCleanup{}),
-	Box::new(SupplyStacks{}),
-	Box::new(TuningTrouble{}),
-	Box::new(NoSpaceLeftOnDevice{}),
-	Box::new(TreetopTreeHouse{}),
-	Box::new(RopeBridge{}),
-	Box::new(CathodeRayTube{}),
-	Box::new(MonkeyInTheMiddle{}),
-	];
+        Box::new(CalorieCounting {}),
+        Box::new(RockPaperScissors {}),
+        Box::new(RucksackReorganization {}),
+        Box::new(CampCleanup {}),
+        Box::new(SupplyStacks {}),
+        Box::new(TuningTrouble {}),
+        Box::new(NoSpaceLeftOnDevice {}),
+        Box::new(TreetopTreeHouse {}),
+        Box::new(RopeBridge {}),
+        Box::new(CathodeRayTube {}),
+        Box::new(MonkeyInTheMiddle {}),
+        Box::new(HillClimbingAlgorithm {}),
+        Box::new(DistressSignal {}),
+        Box::new(RegolithReservoir {}),
+    ];
 
     let args: Vec<String> = env::args().collect();
     let args = &args[1..];
 
-    if args.is_empty() {
-	for p in problems.iter() {
-	    p.print_solutions();
-	    println!();
-	}
-    } else {
-	let arg = args.first().unwrap().parse::<usize>();
-	match arg {
-	    Ok(num) => {
-		if num >= 1 && num <= problems.len() {
-		    problems.get(num - 1).unwrap().print_solutions();
-		} else {
-		    panic!("Invalid problem number {}", num);
-		}
-	    },
-	    Err(_) => { panic!("Arg must be numeric") }
-	}
+    match args.last().unwrap().parse::<usize>() {
+        Ok(to_run) => {
+            let to_run = to_run;
+            if to_run >= 1 && to_run <= problems.len() {
+                problems.get(to_run - 1).unwrap().print_solutions();
+            } else {
+                panic!("Invalid problem number {}", to_run);
+            }
+        }
+        Err(_) => {
+            for p in problems.iter() {
+                p.print_solutions();
+                println!();
+            }
+        }
     }
 }
