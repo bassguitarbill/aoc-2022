@@ -12,10 +12,10 @@ impl DailyProblem for CathodeRayTube {
         10
     }
     fn solutions(&self, input: &str) -> (String, String) {
-        let mut crt = CRT::new(input);
+        let mut crt = Crt::new(input);
         (0..240).for_each(|_| crt.next_cycle());
         (
-            signal_strengths(&mut CPU::new(input), vec![20, 60, 100, 140, 180, 220])
+            signal_strengths(&mut Cpu::new(input), vec![20, 60, 100, 140, 180, 220])
                 .iter()
                 .sum::<i32>()
                 .to_string(),
@@ -24,16 +24,16 @@ impl DailyProblem for CathodeRayTube {
     }
 }
 
-struct CRT<'a> {
-    cpu: CPU<'a>,
+struct Crt<'a> {
+    cpu: Cpu<'a>,
     cycle: u32,
     pixels: [[char; 40]; 6],
 }
 
-impl<'a> CRT<'a> {
+impl<'a> Crt<'a> {
     fn new(input: &'a str) -> Self {
         Self {
-            cpu: CPU::new(input),
+            cpu: Cpu::new(input),
             cycle: 0,
             pixels: [['.'; 40]; 6],
         }
@@ -68,7 +68,7 @@ impl<'a> CRT<'a> {
     }
 }
 
-fn signal_strengths(cpu: &mut CPU, cycles: Vec<u32>) -> Vec<i32> {
+fn signal_strengths(cpu: &mut Cpu, cycles: Vec<u32>) -> Vec<i32> {
     let mut strengths = vec![];
     for cycle in cycles.iter() {
         (cpu.cycle..*cycle).for_each(|_| cpu.next_cycle());
@@ -77,7 +77,7 @@ fn signal_strengths(cpu: &mut CPU, cycles: Vec<u32>) -> Vec<i32> {
     strengths
 }
 
-struct CPU<'a> {
+struct Cpu<'a> {
     x: i32,
     cycle: u32,
     adding: bool,
@@ -86,7 +86,7 @@ struct CPU<'a> {
     signal_strength: i32,
 }
 
-impl<'a> CPU<'a> {
+impl<'a> Cpu<'a> {
     fn new(input: &'a str) -> Self {
         Self {
             instructions: InstructionIterator {
@@ -128,10 +128,9 @@ impl<'a> Iterator for InstructionIterator<'a> {
     type Item = Instruction;
 
     fn next(&mut self) -> Option<Self::Item> {
-        match self.lines.next() {
-            Some(line) => Some(Instruction::from_str(line).unwrap()),
-            None => None,
-        }
+        self.lines
+            .next()
+            .map(|line| Instruction::from_str(line).unwrap())
     }
 }
 
@@ -147,7 +146,7 @@ impl FromStr for Instruction {
         if s == "noop" {
             Ok(Self::Noop)
         } else {
-            Ok(Self::AddX(s.split(" ").nth(1).unwrap().parse().unwrap()))
+            Ok(Self::AddX(s.split(' ').nth(1).unwrap().parse().unwrap()))
         }
     }
 }

@@ -4,7 +4,7 @@ pub struct MonkeyInTheMiddle;
 
 impl DailyProblem for MonkeyInTheMiddle {
     fn name(&self) -> &str {
-        "Monkey in the Middle"
+        "Day 11: Monkey in the Middle"
     }
     fn index(&self) -> u8 {
         11
@@ -64,12 +64,12 @@ impl Monkeys {
         }*/
         for i in 0..to_throw_list.len() {
             for item in to_throw_list.get(i).unwrap() {
-                self.monkeys.get_mut(i).unwrap().items.push(item.clone());
+                self.monkeys.get_mut(i).unwrap().items.push(*item);
             }
         }
     }
 
-    fn print(&self) {
+    fn _print(&self) {
         for m in self.monkeys.iter() {
             println!("{:?}", m);
         }

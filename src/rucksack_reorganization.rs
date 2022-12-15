@@ -34,10 +34,11 @@ impl Iterator for ElfGroupIter<'_> {
     fn next(&mut self) -> Option<ElfGroup> {
         match self.0.next() {
             Some(a) => match self.0.next() {
-                Some(b) => match self.0.next() {
-                    Some(c) => Some(ElfGroup(a.to_string(), b.to_string(), c.to_string())),
-                    None => None,
-                },
+                Some(b) => self
+                    .0
+                    .next()
+                    .map(|c| ElfGroup(a.to_string(), b.to_string(), c.to_string())),
+
                 None => None,
             },
             None => None,

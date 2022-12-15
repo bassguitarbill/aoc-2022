@@ -20,7 +20,7 @@ impl DailyProblem for NoSpaceLeftOnDevice {
     }
 }
 
-fn parse_tree<'a>(input: &'a str) -> HashMap<String, u32> {
+fn parse_tree(input: &str) -> HashMap<String, u32> {
     let mut directories: HashMap<String, u32> = HashMap::new();
     directories.insert("".to_string(), 0);
     let mut context = vec![""];
@@ -47,7 +47,7 @@ fn parse_tree<'a>(input: &'a str) -> HashMap<String, u32> {
             }
             InputLine::Dir(name) => {
                 let mut path = context.join("/");
-                path.push_str("/");
+                path.push('/');
                 path.push_str(name);
                 directories.insert(path, 0);
             }
@@ -68,7 +68,7 @@ fn directory_to_delete(dirs: &HashMap<String, u32>, total_size: u32, target_size
     let space_to_delete = target_size - free_space;
     *dirs
         .iter()
-        .filter(|d| d.1.to_owned() >= space_to_delete)
+        .filter(|d| *d.1 >= space_to_delete)
         .map(|d| d.1)
         .min()
         .unwrap()

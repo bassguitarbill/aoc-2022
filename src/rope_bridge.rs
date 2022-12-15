@@ -1,4 +1,4 @@
-use std::{collections::HashSet, str::Lines};
+use std::{cmp::Ordering, collections::HashSet, str::Lines};
 
 use aoc_2022::DailyProblem;
 
@@ -93,31 +93,31 @@ impl Position {
         let dist = self.distance(other);
         if dist.x == 2 {
             directions.push(Direction::Right);
-            if dist.y > 0 {
-                directions.push(Direction::Down);
-            } else if dist.y < 0 {
-                directions.push(Direction::Up);
+            match dist.y.cmp(&0) {
+                Ordering::Greater => directions.push(Direction::Down),
+                Ordering::Less => directions.push(Direction::Up),
+                _ => {}
             }
         } else if dist.x == -2 {
             directions.push(Direction::Left);
-            if dist.y > 0 {
-                directions.push(Direction::Down);
-            } else if dist.y < 0 {
-                directions.push(Direction::Up);
+            match dist.y.cmp(&0) {
+                Ordering::Greater => directions.push(Direction::Down),
+                Ordering::Less => directions.push(Direction::Up),
+                _ => {}
             }
         } else if dist.y == 2 {
             directions.push(Direction::Down);
-            if dist.x > 0 {
-                directions.push(Direction::Right);
-            } else if dist.x < 0 {
-                directions.push(Direction::Left);
+            match dist.x.cmp(&0) {
+                Ordering::Greater => directions.push(Direction::Right),
+                Ordering::Less => directions.push(Direction::Left),
+                _ => {}
             }
         } else if dist.y == -2 {
             directions.push(Direction::Up);
-            if dist.x > 0 {
-                directions.push(Direction::Right);
-            } else if dist.x < 0 {
-                directions.push(Direction::Left);
+            match dist.x.cmp(&0) {
+                Ordering::Greater => directions.push(Direction::Right),
+                Ordering::Less => directions.push(Direction::Left),
+                _ => {}
             }
         }
         directions

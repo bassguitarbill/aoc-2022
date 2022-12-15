@@ -1,7 +1,4 @@
-use std::{
-    cmp::Ordering,
-    collections::{BinaryHeap, HashMap, HashSet},
-};
+use std::collections::HashMap;
 
 use priority_queue::DoublePriorityQueue;
 
@@ -73,7 +70,6 @@ fn dijkstra(hts: Heights, part_1: bool) -> u32 {
             }
         }
     }
-    0 // oh no
 }
 
 type Position = (usize, usize);
@@ -89,10 +85,7 @@ struct Heights {
 impl Heights {
     fn get(&self, row: usize, col: usize) -> Option<Path> {
         match self.paths.get(row) {
-            Some(r) => match r.get(col) {
-                Some(p) => Some(*p),
-                None => None,
-            },
+            Some(r) => r.get(col).copied(),
             None => None,
         }
     }
