@@ -1,18 +1,21 @@
+use aoc_2022::{sum_lines, DailyProblem};
 use std::str::FromStr;
-use aoc_2022::{DailyProblem, sum_lines};
 
 pub struct RockPaperScissors;
 
 impl DailyProblem for RockPaperScissors {
-    fn name(&self) -> &str { "Day 2: Rock Paper Scissors" }
-    fn index(&self) -> u8 { 2 }
-    fn solutions(&self, input: &str) -> (String, String) {
-	(
-	    sum_lines(input, score_round_part_1).to_string(),
-	    sum_lines(input, score_round_part_2).to_string()
-	)
+    fn name(&self) -> &str {
+        "Day 2: Rock Paper Scissors"
     }
-
+    fn index(&self) -> u8 {
+        2
+    }
+    fn solutions(&self, input: &str) -> (String, String) {
+        (
+            sum_lines(input, score_round_part_1).to_string(),
+            sum_lines(input, score_round_part_2).to_string(),
+        )
+    }
 }
 
 pub fn score_round_part_1(input: &str) -> u32 {
@@ -42,33 +45,37 @@ enum Sign {
 
 impl Sign {
     fn score(&self) -> u32 {
-	match self {
-	    Sign::Rock => 1,
-	    Sign::Paper => 2,
-	    Sign::Scissors => 3,
-	}
+        match self {
+            Sign::Rock => 1,
+            Sign::Paper => 2,
+            Sign::Scissors => 3,
+        }
     }
 
     fn beats(&self) -> Sign {
-	match self {
-	    Sign::Rock => Sign::Scissors,
-	    Sign::Paper => Sign::Rock,
-	    Sign::Scissors => Sign::Paper,
-	}
+        match self {
+            Sign::Rock => Sign::Scissors,
+            Sign::Paper => Sign::Rock,
+            Sign::Scissors => Sign::Paper,
+        }
     }
 
     fn is_beaten_by(&self) -> Sign {
-	match self {
-	    Sign::Rock => Sign::Paper,
-	    Sign::Paper => Sign::Scissors,
-	    Sign::Scissors => Sign::Rock,
-	}
+        match self {
+            Sign::Rock => Sign::Paper,
+            Sign::Paper => Sign::Scissors,
+            Sign::Scissors => Sign::Rock,
+        }
     }
 
     fn result(&self, other: Self) -> RoundResult {
-	if self.beats() == other { RoundResult::Victory }
-	else if self.is_beaten_by() == other { RoundResult::Loss }
-	else { RoundResult::Tie }
+        if self.beats() == other {
+            RoundResult::Victory
+        } else if self.is_beaten_by() == other {
+            RoundResult::Loss
+        } else {
+            RoundResult::Tie
+        }
     }
 }
 
@@ -80,19 +87,19 @@ enum RoundResult {
 
 impl RoundResult {
     fn score(&self) -> u32 {
-	match self {
-	    RoundResult::Victory => 6,
-	    RoundResult::Tie => 3,
-	    RoundResult::Loss => 0,
-	}
+        match self {
+            RoundResult::Victory => 6,
+            RoundResult::Tie => 3,
+            RoundResult::Loss => 0,
+        }
     }
 
     fn sign_to_throw(&self, opponent_sign: Sign) -> Sign {
-	match self {
-	    RoundResult::Victory => opponent_sign.is_beaten_by(),
-	    RoundResult::Tie => opponent_sign,
-	    RoundResult::Loss => opponent_sign.beats(),
-	}
+        match self {
+            RoundResult::Victory => opponent_sign.is_beaten_by(),
+            RoundResult::Tie => opponent_sign,
+            RoundResult::Loss => opponent_sign.beats(),
+        }
     }
 }
 
@@ -100,29 +107,28 @@ impl FromStr for RoundResult {
     type Err = ();
 
     fn from_str(input: &str) -> Result<Self, ()> {
-	match input {
-	    "X" => Ok(RoundResult::Loss),
-	    "Y" => Ok(RoundResult::Tie),
-	    "Z" => Ok(RoundResult::Victory),
-	    _ => Err(()),
-	}
+        match input {
+            "X" => Ok(RoundResult::Loss),
+            "Y" => Ok(RoundResult::Tie),
+            "Z" => Ok(RoundResult::Victory),
+            _ => Err(()),
+        }
     }
 }
-
 
 impl FromStr for Sign {
     type Err = ();
 
     fn from_str(input: &str) -> Result<Self, <Self as FromStr>::Err> {
-	match input {
-	    "A" => Ok(Sign::Rock),
-	    "X" => Ok(Sign::Rock),
-	    "B" => Ok(Sign::Paper),
-	    "Y" => Ok(Sign::Paper),
-	    "C" => Ok(Sign::Scissors),
-	    "Z" => Ok(Sign::Scissors),
-	    _ => Err(()),
-	}
+        match input {
+            "A" => Ok(Sign::Rock),
+            "X" => Ok(Sign::Rock),
+            "B" => Ok(Sign::Paper),
+            "Y" => Ok(Sign::Paper),
+            "C" => Ok(Sign::Scissors),
+            "Z" => Ok(Sign::Scissors),
+            _ => Err(()),
+        }
     }
 }
 
@@ -130,15 +136,15 @@ impl FromStr for Sign {
 mod tests {
     #[test]
     fn score_round_part_1() {
-	assert_eq!(super::score_round_part_1("A Y"), 8);
-	assert_eq!(super::score_round_part_1("B X"), 1);
-	assert_eq!(super::score_round_part_1("C Z"), 6);
+        assert_eq!(super::score_round_part_1("A Y"), 8);
+        assert_eq!(super::score_round_part_1("B X"), 1);
+        assert_eq!(super::score_round_part_1("C Z"), 6);
     }
 
     #[test]
     fn score_round_part_2() {
-	assert_eq!(super::score_round_part_2("A Y"), 4);
-	assert_eq!(super::score_round_part_2("B X"), 1);
-	assert_eq!(super::score_round_part_2("C Z"), 7);
+        assert_eq!(super::score_round_part_2("A Y"), 4);
+        assert_eq!(super::score_round_part_2("B X"), 1);
+        assert_eq!(super::score_round_part_2("C Z"), 7);
     }
 }
