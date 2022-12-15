@@ -153,14 +153,14 @@ impl FromStr for Instruction {
 
 #[cfg(test)]
 mod tests {
-    use super::{signal_strengths, CPU, CRT};
+    use super::{signal_strengths, Cpu, Crt};
 
     #[test]
     fn cycle() {
         let input = "noop
 addx 3
 addx -5";
-        let mut cpu = CPU::new(input);
+        let mut cpu = Cpu::new(input);
         assert_eq!(cpu.x, 1);
         cpu.next_cycle();
         assert_eq!(cpu.x, 1);
@@ -322,7 +322,7 @@ addx -11
 noop
 noop
 noop";
-        let mut cpu = CPU::new(input);
+        let mut cpu = Cpu::new(input);
         (0..20).for_each(|_| cpu.next_cycle());
         assert_eq!(cpu.signal_strength, 420);
         (0..40).for_each(|_| cpu.next_cycle());
@@ -485,7 +485,7 @@ addx -11
 noop
 noop
 noop";
-        let mut cpu = CPU::new(input);
+        let mut cpu = Cpu::new(input);
         assert_eq!(
             signal_strengths(&mut cpu, vec![20, 60, 100, 140, 180, 220]),
             vec![420, 1140, 1800, 2940, 2880, 3960]
@@ -640,7 +640,7 @@ addx -11
 noop
 noop
 noop";
-        let mut crt = CRT::new(input);
+        let mut crt = Crt::new(input);
         assert_eq!(
             crt.pixel_string(),
             "
