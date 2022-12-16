@@ -274,7 +274,7 @@ mod tests {
         assert_eq!(gs.run(), 24);
         let mut gs = GameState::new(input, true);
         gs.run();
-        gs.print();
+        gs._print();
 
         assert_eq!(gs.run(), 93);
     }
