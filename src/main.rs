@@ -1,3 +1,4 @@
+mod beacon_exclusion_zone;
 mod calorie_counting;
 mod camp_cleanup;
 mod cathode_ray_tube;
@@ -13,6 +14,7 @@ mod supply_stacks;
 mod treetop_tree_house;
 mod tuning_trouble;
 
+use crate::beacon_exclusion_zone::BeaconExclusionZone;
 use crate::calorie_counting::CalorieCounting;
 use crate::camp_cleanup::CampCleanup;
 use crate::cathode_ray_tube::CathodeRayTube;
@@ -46,25 +48,33 @@ fn main() {
         Box::new(HillClimbingAlgorithm {}),
         Box::new(DistressSignal {}),
         Box::new(RegolithReservoir {}),
+        Box::new(BeaconExclusionZone {}),
     ];
 
     let args: Vec<String> = env::args().collect();
     let args = &args[1..];
 
-    match args.last().unwrap().parse::<usize>() {
-        Ok(to_run) => {
-            let to_run = to_run;
-            if to_run >= 1 && to_run <= problems.len() {
-                problems.get(to_run - 1).unwrap().print_solutions();
-            } else {
-                panic!("Invalid problem number {}", to_run);
+    if let Some(last_arg) = args.last() {
+        match last_arg.parse::<usize>() {
+            Ok(to_run) => {
+                let to_run = to_run;
+                if to_run >= 1 && to_run <= problems.len() {
+                    problems.get(to_run - 1).unwrap().print_solutions();
+                } else {
+                    panic!("Invalid problem number {}", to_run);
+                }
+            }
+            Err(_) => {
+                for p in problems.iter() {
+                    p.print_solutions();
+                    println!();
+                }
             }
         }
-        Err(_) => {
-            for p in problems.iter() {
-                p.print_solutions();
-                println!();
-            }
+    } else {
+        for p in problems.iter() {
+            p.print_solutions();
+            println!();
         }
     }
 }
