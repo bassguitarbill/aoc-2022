@@ -6,6 +6,8 @@ mod distress_signal;
 mod hill_climbing_algorithm;
 mod monkey_in_the_middle;
 mod no_space_left_on_device;
+mod proboscidea_volcanium;
+mod pyroclastic_flow;
 mod regolith_reservoir;
 mod rock_paper_scissors;
 mod rope_bridge;
@@ -22,6 +24,8 @@ use crate::distress_signal::DistressSignal;
 use crate::hill_climbing_algorithm::HillClimbingAlgorithm;
 use crate::monkey_in_the_middle::MonkeyInTheMiddle;
 use crate::no_space_left_on_device::NoSpaceLeftOnDevice;
+use crate::proboscidea_volcanium::ProboscideaVolcanium;
+use crate::pyroclastic_flow::PyroclasticFlow;
 use crate::regolith_reservoir::RegolithReservoir;
 use crate::rock_paper_scissors::RockPaperScissors;
 use crate::rope_bridge::RopeBridge;
@@ -49,6 +53,8 @@ fn main() {
         Box::new(DistressSignal {}),
         Box::new(RegolithReservoir {}),
         Box::new(BeaconExclusionZone {}),
+        Box::new(ProboscideaVolcanium {}),
+        Box::new(PyroclasticFlow {}),
     ];
 
     let args: Vec<String> = env::args().collect();
