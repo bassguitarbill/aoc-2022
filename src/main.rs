@@ -1,4 +1,5 @@
 mod beacon_exclusion_zone;
+mod boiling_boulders;
 mod calorie_counting;
 mod camp_cleanup;
 mod cathode_ray_tube;
@@ -17,6 +18,7 @@ mod treetop_tree_house;
 mod tuning_trouble;
 
 use crate::beacon_exclusion_zone::BeaconExclusionZone;
+use crate::boiling_boulders::BoilingBoulders;
 use crate::calorie_counting::CalorieCounting;
 use crate::camp_cleanup::CampCleanup;
 use crate::cathode_ray_tube::CathodeRayTube;
@@ -55,6 +57,7 @@ fn main() {
         Box::new(BeaconExclusionZone {}),
         Box::new(ProboscideaVolcanium {}),
         Box::new(PyroclasticFlow {}),
+        Box::new(BoilingBoulders {}),
     ];
 
     let args: Vec<String> = env::args().collect();
