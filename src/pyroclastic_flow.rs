@@ -1,4 +1,4 @@
-use std::{collections::HashSet, fmt::Display};
+use std::collections::HashSet;
 
 use crate::DailyProblem;
 
@@ -95,7 +95,7 @@ impl Cave {
         // println!("{}", self.as_string());
     }
 
-    fn as_string(&self) -> String {
+    fn _as_string(&self) -> String {
         let mut active_piece_cells = HashSet::new();
         let active_piece = self.active_piece.as_ref().unwrap();
         for cell in active_piece.cells() {
@@ -296,7 +296,7 @@ impl Iterator for JetIterator {
 
 #[derive(Clone, Debug)]
 struct PieceTemplate {
-    height: usize,
+    // height: usize,
     width: usize,
     cells: Vec<Vec<bool>>,
 }
@@ -314,16 +314,16 @@ impl PieceTemplate {
                 });
             }
         }
-        let height = cells.len();
+        // let height = cells.len();
         let width = cells.get(0).unwrap().len();
         Self {
             cells,
-            height,
+            // height,
             width,
         }
     }
 
-    fn as_string(&self) -> String {
+    fn _as_string(&self) -> String {
         let mut s = "".to_string();
         for line in self.cells.iter() {
             for cell in line {
@@ -398,12 +398,12 @@ mod tests {
     #[test]
     fn piece_template_iterator() {
         let mut pti = PieceTemplateIterator::new(PIECE_TEMPLATE_STRING);
-        assert_eq!(pti.next().unwrap().as_string(), "####\n");
-        assert_eq!(pti.next().unwrap().as_string(), " # \n###\n # \n");
-        assert_eq!(pti.next().unwrap().as_string(), "  #\n  #\n###\n");
-        assert_eq!(pti.next().unwrap().as_string(), "#\n#\n#\n#\n");
-        assert_eq!(pti.next().unwrap().as_string(), "##\n##\n");
-        assert_eq!(pti.next().unwrap().as_string(), "####\n");
+        assert_eq!(pti.next().unwrap()._as_string(), "####\n");
+        assert_eq!(pti.next().unwrap()._as_string(), " # \n###\n # \n");
+        assert_eq!(pti.next().unwrap()._as_string(), "  #\n  #\n###\n");
+        assert_eq!(pti.next().unwrap()._as_string(), "#\n#\n#\n#\n");
+        assert_eq!(pti.next().unwrap()._as_string(), "##\n##\n");
+        assert_eq!(pti.next().unwrap()._as_string(), "####\n");
     }
 
     #[test]
