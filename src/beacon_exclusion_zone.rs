@@ -79,11 +79,6 @@ fn no_beacons_at_row(input: &str, row: i32) -> u32 {
             beacons_in_row.insert(pos);
         });
 
-    let beacons_in_row_count = beacons_in_row
-        .iter()
-        .filter(|y| y.1 == row)
-        .collect::<Vec<&Position>>()
-        .len();
     sum - 1
 }
 
